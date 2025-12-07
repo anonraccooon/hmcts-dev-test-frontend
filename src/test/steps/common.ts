@@ -1,3 +1,4 @@
+/// <reference types="codeceptjs" />
 import { config as testConfig } from '../config';
 
 const { I } = inject();
@@ -17,4 +18,16 @@ Then('the page URL should be {string}', (url: string) => {
 
 Then('the page should include {string}', (text: string) => {
   I.waitForText(text);
+});
+
+Then('the page URL should contain {string}', (urlPart: string) => {
+  I.seeInCurrentUrl(urlPart);
+});
+
+When('I click on {string}', (buttonText: string) => {
+  I.click(buttonText);
+});
+
+When('I click {string}', (buttonText: string) => {
+  I.click(buttonText);
 });

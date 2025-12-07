@@ -1,3 +1,4 @@
+/// <reference types="codeceptjs" />
 import { config as testConfig } from './src/test/config';
 
 const { setHeadlessWhen } = require('@codeceptjs/configure');
@@ -11,7 +12,7 @@ export const config: CodeceptJS.MainConfig = {
   tests: './*_test.{js,ts}',
   plugins: {
     allure: {
-      enabled: true,
+      enabled: false,
       require: '@codeceptjs/allure-legacy',
     },
     pauseOnFail: {

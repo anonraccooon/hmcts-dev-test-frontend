@@ -1,0 +1,46 @@
+{% extends "template.njk" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/tasks"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  {% if success %}
+    {% set html %}
+      <h3 class="govuk-notification-banner__heading">
+        Task created successfully
+      </h3>
+    {% endset %}
+
+    {{ govukNotificationBanner({
+      html: html,
+      type: "success"
+    }) }}
+
+  {% endif %}
+
+  {% if task.status %}
+    <p class='govuk-tag govuk-tag--green'>Completed</p>
+  {% else %}
+    <p class='govuk-tag govuk-tag--blue'>Incompleted</p>
+  {% endif %}
+
+  <h1 class="govuk-heading-l">{{ task.title }}</h1>
+
+  <p class="govuk-body"><b>Created:</b> {{ [task.createdDate.slice(0,10), " at ", task.dueDate.slice(11), " GMT"] | join }}
+  {% if task.dueDate %}
+    <br><b>Deadline:</b> {{ [task.dueDate.slice(0,10), " at ", task.dueDate.slice(11), " GMT"] | join }}</p>
+  {% else %}
+    </p>
+  {% endif %}
+
+  <p class="govuk-body">{{ task.description }}<p>
+
+{% endblock %}

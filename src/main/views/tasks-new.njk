@@ -1,0 +1,77 @@
+{% extends "template.njk" %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/tasks"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errors
+    }) }}
+  {% endif %}
+
+  <form action="/tasks" method="POST">
+    {% call govukFieldset({
+      legend: {
+        text: "Create a new task",
+        classes: "govuk-fieldset__legend--l",
+        isPageHeading: true
+      }
+    }) %}
+      {{ govukInput({
+        label: {
+          text: "Title"
+        },
+        id: "title",
+        name: "title",
+        autocomplete: "title"
+      }) }}
+
+      {{ govukTextarea({
+        name: "description",
+        id: "description",
+        label: {
+          text: "Description (Optional)"
+        },
+        hint: {
+          text: "Provide a summary of the task"
+        }
+      }) }}
+
+      <label for="due-date" class="govuk-label">Due date (date and time)</label>
+      <input
+        type="datetime-local"
+        id="due-date"
+        name="dueDate"
+        class="govuk-input govuk-input--width-10"/>
+
+      {{ govukCheckboxes({
+        name: "status",
+        items: [
+          {
+            value: "completed",
+            text: "Is the task completed?"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Create task"
+      }) }}
+    {% endcall %}
+   </form>
+{% endblock %}
